@@ -25,7 +25,10 @@ connectDB();
 const app = express();
 
 // Midlewares
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || '*',
+  credentials: true,
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
