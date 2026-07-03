@@ -62,7 +62,7 @@ export default function HeroBanner() {
         <div className="absolute inset-0 bg-black/45" />
 
         {/* Content Slider */}
-        <div className="absolute inset-0 flex items-center justify-between px-12 md:px-24 z-10">
+        <div className="absolute inset-0 flex items-center justify-between px-8 md:px-24 z-10">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -73,28 +73,28 @@ export default function HeroBanner() {
               className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
             >
               {/* Left Side Info */}
-              <div className="text-left flex flex-col items-start max-w-lg">
-                <span className="text-amber-400 font-semibold uppercase text-sm md:text-base tracking-widest font-outfit mb-2">
+              <div className="text-left flex flex-col items-start max-w-[85%] md:max-w-lg">
+                <span className="text-amber-400 font-semibold uppercase text-xs md:text-base tracking-widest font-outfit mb-1 md:mb-2">
                   {slides[current].subtitle}
                 </span>
-                <h1 className="text-4xl md:text-6xl font-extrabold text-white font-outfit leading-tight mb-4 tracking-tight">
+                <h1 className="text-2xl md:text-6xl font-extrabold text-white font-outfit leading-tight mb-2 md:mb-4 tracking-tight">
                   {slides[current].title}
                 </h1>
-                <p className="text-base md:text-lg text-gray-200 font-medium mb-8">
+                <p className="text-xs md:text-lg text-gray-200 font-medium mb-4 md:mb-8 max-w-xs md:max-w-none">
                   {slides[current].desc}
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigateTo('listing')}
-                  className="bg-white text-gray-900 px-8 py-3.5 rounded-full text-sm font-bold font-outfit uppercase tracking-wider hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
+                  className="bg-white text-gray-900 px-5 py-2 md:px-8 md:py-3.5 rounded-full text-xs md:text-sm font-bold font-outfit uppercase tracking-wider hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
                 >
                   SHOP NOW
                 </motion.button>
               </div>
 
-              {/* Right Side badging */}
-              <div className="text-left md:text-right flex flex-col items-start md:items-end justify-center">
+              {/* Right Side badging (Hidden on mobile for better fit) */}
+              <div className="hidden md:flex text-left md:text-right flex-col items-start md:items-end justify-center">
                 <span className="text-gray-300 font-semibold text-xs md:text-sm tracking-wider uppercase leading-none mb-2">
                   {slides[current].statLabel}
                 </span>
@@ -115,17 +115,17 @@ export default function HeroBanner() {
         {/* Left Arrow */}
         <button
           onClick={prevSlide}
-          className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white cursor-pointer z-20 backdrop-blur-xs transition-colors"
+          className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white cursor-pointer z-20 backdrop-blur-xs transition-colors"
         >
-          <FiChevronLeft size={24} />
+          <FiChevronLeft size={18} className="md:w-6 md:h-6" />
         </button>
 
         {/* Right Arrow */}
         <button
           onClick={nextSlide}
-          className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white cursor-pointer z-20 backdrop-blur-xs transition-colors"
+          className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white cursor-pointer z-20 backdrop-blur-xs transition-colors"
         >
-          <FiChevronRight size={24} />
+          <FiChevronRight size={18} className="md:w-6 md:h-6" />
         </button>
 
         {/* Slider Dots */}
