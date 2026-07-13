@@ -51,18 +51,18 @@ export default function HeroBanner() {
 
   return (
     <section className="w-full px-4 md:px-6 py-2.5">
-      <div className="max-w-[1440px] mx-auto bg-white rounded-2xl p-5 shadow-xs">
-        <div className="relative overflow-hidden rounded-xl shadow-xs h-[280px] md:h-[380px] bg-black">
-
+      <div className="max-w-[1440px] mx-auto bg-white rounded-2xl p-3 md:p-5 shadow-xs">
+        <div className="relative overflow-hidden rounded-xl shadow-xs h-[200px] sm:h-[280px] md:h-[380px] bg-black">
+ 
         {/* Banner Background with Dark Overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
         <div className="absolute inset-0 bg-black/45" />
-
+ 
         {/* Content Slider */}
-        <div className="absolute inset-0 flex items-center justify-between px-8 md:px-24 z-10">
+        <div className="absolute inset-0 flex items-center justify-center md:justify-between px-6 md:px-24 z-10">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -70,24 +70,24 @@ export default function HeroBanner() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.4 }}
-              className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+              className="w-full flex flex-col md:flex-row items-center md:items-center justify-between gap-6"
             >
               {/* Left Side Info */}
-              <div className="text-left flex flex-col items-start max-w-[85%] md:max-w-lg">
-                <span className="text-amber-400 font-semibold uppercase text-xs md:text-base tracking-widest font-outfit mb-1 md:mb-2">
+              <div className="text-center md:text-left flex flex-col items-center md:items-start max-w-[90%] md:max-w-lg">
+                <span className="text-amber-400 font-semibold uppercase text-[10px] sm:text-xs md:text-base tracking-widest font-outfit mb-1 md:mb-2">
                   {slides[current].subtitle}
                 </span>
-                <h1 className="text-2xl md:text-6xl font-extrabold text-white font-outfit leading-tight mb-2 md:mb-4 tracking-tight">
+                <h1 className="text-xl sm:text-3xl md:text-6xl font-extrabold text-white font-outfit leading-tight mb-1.5 md:mb-4 tracking-tight">
                   {slides[current].title}
                 </h1>
-                <p className="text-xs md:text-lg text-gray-200 font-medium mb-4 md:mb-8 max-w-xs md:max-w-none">
+                <p className="text-[10px] sm:text-sm md:text-lg text-gray-200 font-medium mb-3 md:mb-8 max-w-xs md:max-w-none">
                   {slides[current].desc}
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigateTo('listing')}
-                  className="bg-white text-gray-900 px-5 py-2 md:px-8 md:py-3.5 rounded-full text-xs md:text-sm font-bold font-outfit uppercase tracking-wider hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
+                  className="bg-white text-gray-900 px-4 py-1.5 sm:px-5 sm:py-2 md:px-8 md:py-3.5 rounded-full text-[10px] sm:text-xs md:text-sm font-bold font-outfit uppercase tracking-wider hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
                 >
                   SHOP NOW
                 </motion.button>

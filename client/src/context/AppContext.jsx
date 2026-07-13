@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import api from '../api/axios';
+import { mockCategories, mockBrands, mockProducts } from '../data/mockData';
 
 export const AppContext = createContext();
 
@@ -20,10 +21,10 @@ export function AppProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
   const [orders, setOrders] = useState([]);
   
-  // Categories & Brands fetched from MongoDB
-  const [categories, setCategories] = useState([]);
-  const [brands, setBrands] = useState([]);
-  const [productsList, setProductsList] = useState([]); // Live product list
+  // Categories & Brands fetched from MongoDB (with static seed fallback)
+  const [categories, setCategories] = useState(mockCategories);
+  const [brands, setBrands] = useState(mockBrands);
+  const [productsList, setProductsList] = useState(mockProducts); // Live product list
   const [loading, setLoading] = useState(false);
 
   // Search & Filter States

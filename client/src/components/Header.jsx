@@ -71,25 +71,22 @@ export default function Header() {
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-3.5 cursor-pointer p-1 rounded-lg hover:bg-gray-50 transition-colors"
+                className="h-11 flex items-center gap-2 cursor-pointer pr-3 rounded-xl hover:bg-gray-50 transition-colors border border-gray-100 pl-1"
               >
                 <UserAvatar
                   user={user}
-                  sizeClass="w-11 h-11"
+                  sizeClass="w-9 h-9"
                   className="border border-gray-200"
                 />
-                <div className="hidden sm:flex flex-col text-left">
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm font-semibold text-gray-700 leading-tight">{user.name}</span>
-                    <FiChevronDown size={13} className="text-gray-500" />
+                <div className="hidden sm:flex flex-col text-left justify-center leading-tight">
+                  <div className="flex items-center gap-0.5">
+                    <span className="text-xs font-bold text-gray-700">{user.name}</span>
+                    <FiChevronDown size={11} className="text-gray-400" />
                   </div>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <span className="bg-brand-red text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full flex items-center justify-center leading-none">{user.role}</span>
-                    {/* <span className="text-[10px] md:text-xs font-bold text-amber-600 tracking-wide uppercase leading-none">Gold Member</span> */}
-                  </div>
+                  <span className="text-[9px] font-black text-brand-red uppercase leading-none">{user.role}</span>
                 </div>
               </motion.div>
-
+ 
               <AnimatePresence>
                 {dropdownOpen && (
                   <ProfileDropdown 
@@ -102,24 +99,24 @@ export default function Header() {
           ) : (
             <button
               onClick={() => navigateTo('auth')}
-              className="bg-gray-900 hover:bg-black text-white px-4.5 py-2.5 rounded-lg text-sm font-bold transition-all shadow-2xs cursor-pointer flex items-center gap-2 font-outfit"
+              className="h-11 bg-gray-900 hover:bg-black text-white px-5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs cursor-pointer flex items-center gap-2 font-outfit justify-center"
             >
-              <FiUser size={15} />
+              <FiUser size={14} className="shrink-0" />
               <span>Log In</span>
             </button>
           )}
-
+ 
           {/* Cart Button */}
           <motion.button 
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => navigateTo('cart')}
-            className="flex items-center gap-3 bg-brand-red hover:bg-brand-red-hover text-white px-4 py-2 rounded-md text-sm font-semibold shadow-2xs transition-all duration-200 cursor-pointer"
+            className="h-11 flex items-center gap-2.5 bg-brand-red hover:bg-brand-red-hover text-white px-4 rounded-xl text-xs sm:text-sm font-bold shadow-xs transition-all duration-200 cursor-pointer justify-center"
           >
-            <FiShoppingCart size={15} />
-            <div className="flex flex-col items-start leading-none gap-1">
-              <span className="text-[11px] font-medium text-white/90">{totalCount} {totalCount === 1 ? 'Item' : 'Items'}</span>
-              <span className="text-[13px] font-bold">₹{total.toLocaleString('en-IN')}.00</span>
+            <FiShoppingCart size={14} className="shrink-0" />
+            <div className="flex flex-col items-start leading-none gap-0.5 text-left">
+              <span className="text-[9px] font-medium text-white/95">{totalCount} {totalCount === 1 ? 'Item' : 'Items'}</span>
+              <span className="text-[11px] sm:text-[12px] font-bold whitespace-nowrap">₹{total.toLocaleString('en-IN')}.00</span>
             </div>
           </motion.button>
 
