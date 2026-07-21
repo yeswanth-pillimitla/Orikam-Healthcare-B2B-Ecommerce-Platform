@@ -128,3 +128,68 @@ export const getBrands = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch brands' });
   }
 };
+
+// @desc    Update a product
+// @route   PUT /api/products/:id
+// @access  Private/Admin
+export const updateProduct = async (req, res) => {
+  const { name, description, price, originalPrice, discountPrice, category, brand, images, stock, specifications } = req.body;
+
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (product) {
+      const oldCategory = product.category;
+
+      product.name = name || product.name;
+      product.description = description || product.description;
+      product.price = price !== undefined ? price : product.price;
+      product.originalPrice = originalPrice !== undefined ? originalPrice : product.originalPrice;
+      product.discountPrice = discountPrice !== undefined ? discountPrice : product.discountPrice;
+      product.category = category || product.category;
+      product.brand = brand || product.brand;
+      product.images = images || product.images;
+      product.stock = stock !== undefined ? stock : product.stock;
+      product.specifications = specifications || product.specifications;
+
+      const updatedProduct = await product.save();
+
+      // If category has changed, sync category product counts
+      if (category && category !== oldCategory) {
+        await Category.updateOne({ name: oldCategory }, { $inc: { productCount: -1 } });
+        await Category.updateOne({ name: category }, { $inc: { productCount: 1 } });
+      }
+
+      res.json(updatedProduct);
+    } else {
+      res.status(404).json({ error: 'Product not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update product' });
+  }
+};
+
+// @desc    Delete a product
+// @route   DELETE /api/products/:id
+// @access  Private/Admin
+export const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (product) {
+      const categoryName = product.category;
+      await product.deleteOne();
+
+      // Decrement productCount in corresponding Category model if it exists
+      await Category.updateOne({ name: categoryName }, { $inc: { productCount: -1 } });
+
+      res.json({ message: 'Product removed successfully' });
+    } else {
+      res.status(404).json({ error: 'Product not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to delete product' });
+  }
+};

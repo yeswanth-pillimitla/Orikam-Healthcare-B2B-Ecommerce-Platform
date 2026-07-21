@@ -83,3 +83,56 @@ export const updateUserProfile = async (req, res) => {
     res.status(500).json({ error: 'Update profile server error' });
   }
 };
+
+// @desc    Get all users (Admin only)
+// @route   GET /api/user
+// @access  Private/Admin
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+};
+
+// @desc    Update user role (Super Admin only)
+// @route   PUT /api/user/:id/role
+// @access  Private/SuperAdmin
+export const updateUserRole = async (req, res) => {
+  const { role } = req.body;
+
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      // Prevent demoting last Super Admin (sanity check)
+      if (user.role === 'Super Admin' && role !== 'Super Admin') {
+        const superAdminsCount = await User.countDocuments({ role: 'Super Admin' });
+        if (superAdminsCount <= 1) {
+          return res.status(400).json({ error: 'Cannot demote the only remaining Super Admin user.' });
+        }
+      }
+
+      user.role = role || user.role;
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        role: updatedUser.role,
+        clinicName: updatedUser.clinicName,
+        gstin: updatedUser.gstin,
+        profileImage: updatedUser.profileImage,
+      });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update user role' });
+  }
+};

@@ -443,6 +443,83 @@ export function AppProvider({ children }) {
     navigateTo('listing');
   };
 
+  // Admin Operations
+  const adminCreateProduct = async (productData) => {
+    try {
+      const res = await api.post('/products', productData);
+      await fetchFilteredProducts();
+      await fetchGlobalData();
+      return { success: true, data: res.data };
+    } catch (err) {
+      console.error("Admin create product failed:", err);
+      return { success: false, error: err.response?.data?.error || "Failed to create product" };
+    }
+  };
+
+  const adminUpdateProduct = async (productId, productData) => {
+    try {
+      const res = await api.put(`/products/${productId}`, productData);
+      await fetchFilteredProducts();
+      await fetchGlobalData();
+      return { success: true, data: res.data };
+    } catch (err) {
+      console.error("Admin update product failed:", err);
+      return { success: false, error: err.response?.data?.error || "Failed to update product" };
+    }
+  };
+
+  const adminDeleteProduct = async (productId) => {
+    try {
+      await api.delete(`/products/${productId}`);
+      await fetchFilteredProducts();
+      await fetchGlobalData();
+      return { success: true };
+    } catch (err) {
+      console.error("Admin delete product failed:", err);
+      return { success: false, error: err.response?.data?.error || "Failed to delete product" };
+    }
+  };
+
+  const adminGetAllOrders = async () => {
+    try {
+      const res = await api.get('/orders/all');
+      return res.data;
+    } catch (err) {
+      console.error("Admin fetch orders failed:", err);
+      return [];
+    }
+  };
+
+  const adminUpdateOrderStatus = async (orderId, status) => {
+    try {
+      const res = await api.put(`/orders/${orderId}/status`, { status });
+      return { success: true, data: res.data };
+    } catch (err) {
+      console.error("Admin update order status failed:", err);
+      return { success: false, error: err.response?.data?.error || "Failed to update order status" };
+    }
+  };
+
+  const adminGetAllUsers = async () => {
+    try {
+      const res = await api.get('/user/all');
+      return res.data;
+    } catch (err) {
+      console.error("Admin fetch users failed:", err);
+      return [];
+    }
+  };
+
+  const adminUpdateUserRole = async (userId, role) => {
+    try {
+      const res = await api.put(`/user/${userId}/role`, { role });
+      return { success: true, data: res.data };
+    } catch (err) {
+      console.error("Admin update user role failed:", err);
+      return { success: false, error: err.response?.data?.error || "Failed to update user role" };
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -509,6 +586,15 @@ export function AppProvider({ children }) {
         logout,
         login,
         register,
+
+        // Admin actions
+        adminCreateProduct,
+        adminUpdateProduct,
+        adminDeleteProduct,
+        adminGetAllOrders,
+        adminUpdateOrderStatus,
+        adminGetAllUsers,
+        adminUpdateUserRole,
       }}
     >
       {children}

@@ -19,7 +19,10 @@ export default function ProfileDropdown({ onClose, onTriggerLogout }) {
 
   if (!user) return null;
 
+  const isElevated = user.role === 'Admin' || user.role === 'Super Admin';
+
   const menuItems = [
+    ...(isElevated ? [{ label: 'Admin Dashboard', tab: 'admin', icon: <FiSettings size={13} className="text-amber-500 shrink-0" /> }] : []),
     { label: 'My Profile', tab: 'profile', icon: <FiUser size={13} /> },
     { label: 'My Orders', tab: 'orders', icon: <FiShoppingBag size={13} /> },
     { label: 'Wishlist', tab: 'wishlist', icon: <FiHeart size={13} /> },
@@ -35,9 +38,13 @@ export default function ProfileDropdown({ onClose, onTriggerLogout }) {
     { label: 'Help & Support', tab: 'support', icon: <FiHelpCircle size={13} /> }
   ];
 
-  const handleItemClick = (tabName) => {
-    setActiveProfileTab(tabName);
-    navigateTo('profile');
+  const handleItemClick = (item) => {
+    if (item.tab === 'admin') {
+      navigateTo('admin');
+    } else {
+      setActiveProfileTab(item.tab);
+      navigateTo('profile');
+    }
     onClose();
   };
 
@@ -77,7 +84,7 @@ export default function ProfileDropdown({ onClose, onTriggerLogout }) {
         {menuItems.map((item, idx) => (
           <button
             key={idx}
-            onClick={() => handleItemClick(item.tab)}
+            onClick={() => handleItemClick(item)}
             className="w-full flex items-center justify-between px-4 py-2 text-xs font-bold text-gray-600 hover:text-gray-900 hover:bg-gray-50/80 transition-colors cursor-pointer"
           >
             <div className="flex items-center gap-2.5">

@@ -10,6 +10,7 @@ import MyOrders from './pages/MyOrders';
 import ProfileDashboard from './pages/ProfileDashboard';
 import Auth from './pages/Auth';
 import CompanyPages from './pages/CompanyPages';
+import AdminDashboard from './pages/AdminDashboard';
 
 function AppContent() {
   const { currentView } = useContext(AppContext);
@@ -32,6 +33,8 @@ function AppContent() {
         return <ProfileDashboard />;
       case 'auth':
         return <Auth />;
+      case 'admin':
+        return <AdminDashboard />;
       case 'about':
       case 'careers':
       case 'blog':

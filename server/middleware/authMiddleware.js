@@ -37,3 +37,12 @@ export const admin = (req, res, next) => {
     res.status(403).json({ error: 'Not authorized as an admin' });
   }
 };
+
+// Super Admin middleware check
+export const superAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'Super Admin') {
+    next();
+  } else {
+    res.status(403).json({ error: 'Not authorized as a Super Admin' });
+  }
+};

@@ -8,6 +8,7 @@ import Brand from './models/Brand.js';
 import Cart from './models/Cart.js';
 import Wishlist from './models/Wishlist.js';
 import Notification from './models/Notification.js';
+import Order from './models/Order.js';
 
 dotenv.config();
 connectDB();
@@ -23,6 +24,7 @@ const seedData = async () => {
     await Cart.deleteMany();
     await Wishlist.deleteMany();
     await Notification.deleteMany();
+    await Order.deleteMany();
 
     console.log('Old collections cleared.');
 
@@ -121,13 +123,13 @@ const seedData = async () => {
     await Product.insertMany(products);
     console.log('Products seeded.');
 
-    // 5. Create default Admin User (Olivia Rhye)
+    // 5. Create default Admin User (Yash)
     console.log('Seeding default Admin User...');
     const adminUser = await User.create({
-      name: "Olivia Rhye",
-      email: "olivia@orikam.com",
+      name: "Yash",
+      email: "yash@orikam.com",
       phone: "+91 98765 43210",
-      password: "password123", // Will be hashed automatically by user pre-save hook
+      password: "yash@2210", // Will be hashed automatically by user pre-save hook
       profileImage: "/assets/avatar_olivia.png",
       role: "Super Admin",
       clinicName: "Rhye Dental Clinic & Diagnostics",

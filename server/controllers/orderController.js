@@ -91,3 +91,47 @@ export const getOrderById = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch order details' });
   }
 };
+
+// @desc    Get all orders (Admin only)
+// @route   GET /api/orders
+// @access  Private/Admin
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({}).populate('user', 'name email phone clinicName').sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch all orders' });
+  }
+};
+
+// @desc    Update order status
+// @route   PUT /api/orders/:id/status
+// @access  Private/Admin
+export const updateOrderStatus = async (req, res) => {
+  const { status } = req.body;
+
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (order) {
+      order.orderStatus = status || order.orderStatus;
+      const updatedOrder = await order.save();
+
+      // Create a status update notification for the customer
+      await Notification.create({
+        user: order.user,
+        type: 'order',
+        title: `Order Status Updated: ${status}`,
+        message: `Your medical supplies request (${order.orderId}) status has been updated to ${status}.`,
+      });
+
+      res.json(updatedOrder);
+    } else {
+      res.status(404).json({ error: 'Order not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update order status' });
+  }
+};
