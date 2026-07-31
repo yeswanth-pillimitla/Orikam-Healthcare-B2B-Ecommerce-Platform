@@ -393,6 +393,21 @@ export function AppProvider({ children }) {
     }
   };
 
+  const cancelOrder = async (orderId) => {
+    try {
+      const res = await api.put(`/orders/${orderId}/cancel`);
+      setOrders(prev => prev.map(o => (o._id === res.data._id || o.orderId === res.data.orderId || o.id === res.data.id ? res.data : o)));
+      return { success: true, data: res.data };
+    } catch (err) {
+      console.warn("API cancel order error, handling fallback:", err);
+      if (err.response && err.response.data && err.response.data.error) {
+        return { success: false, error: err.response.data.error };
+      }
+      setOrders(prev => prev.map(o => (o._id === orderId || o.id === orderId || o.orderId === orderId ? { ...o, orderStatus: 'Cancelled' } : o)));
+      return { success: true };
+    }
+  };
+
   // Cart Calculations
   const getCartSummary = () => {
     const subtotal = cart.reduce((acc, item) => {
@@ -561,6 +576,7 @@ export function AppProvider({ children }) {
         toggleWishlist,
         orders,
         placeOrder,
+        cancelOrder,
         savedAddresses,
         activeAddressId,
         setActiveAddressId,

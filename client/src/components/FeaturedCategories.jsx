@@ -29,7 +29,7 @@ export default function FeaturedCategories() {
     const color = colors[idx % colors.length];
     let imageSrc = cat.image;
     if (cat.name.toLowerCase().includes('polisher') || cat.name.toLowerCase().includes('scaler')) {
-      imageSrc = '/src/assets/category_scaler.png';
+      imageSrc = '/assets/category_scaler.png';
     }
     return {
       name: cat.name,

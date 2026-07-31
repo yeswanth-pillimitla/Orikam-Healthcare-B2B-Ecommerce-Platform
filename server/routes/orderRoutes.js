@@ -5,6 +5,7 @@ import {
   getOrderById,
   getAllOrders,
   updateOrderStatus,
+  cancelOrder,
 } from '../controllers/orderController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
@@ -16,6 +17,7 @@ router.post('/create', createOrder);
 router.get('/my-orders', getMyOrders);
 router.get('/all', admin, getAllOrders); // Map all orders
 router.put('/:id/status', admin, updateOrderStatus); // Map status update
+router.put('/:id/cancel', cancelOrder); // Map user cancel order
 router.get('/:id', getOrderById);
 
 export default router;
